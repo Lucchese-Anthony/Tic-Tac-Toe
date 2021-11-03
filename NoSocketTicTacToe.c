@@ -34,9 +34,10 @@ void printBoard(Game *currGame) {
 	if (currGame == NULL) {
 		printf("There is no current game!\n");
 	} else {
-		printf(" %c | %c | %c \n-----------\n", currGame->board[0], currGame->board[1], currGame->board[2]); 
-		printf(" %c | %c | %c \n-----------\n", currGame->board[3], currGame->board[4], currGame->board[5]);
-		printf(" %c | %c | %c \n", currGame->board[6], currGame->board[7], currGame->board[8]);
+		printf("\n");
+		printf("		 %c | %c | %c \n		-----------\n", currGame->board[0], currGame->board[1], currGame->board[2]); 
+		printf("		 %c | %c | %c \n		-----------\n", currGame->board[3], currGame->board[4], currGame->board[5]);
+		printf("		 %c | %c | %c \n",    		             currGame->board[6], currGame->board[7], currGame->board[8]);
 	}
 }
 
@@ -90,23 +91,15 @@ void help() {
 	printf("%scp%s : print the board\n\n", CYN, NORM);
 }
 
-char iterateGame (Game *currGame) {
+Game *iterateGame (Game *currGame) {
 	char input = 'n';
 	if (currGame == NULL) {
 		currGame = createGame();
 		nextMove(currGame);
 	} else {
 		nextMove(currGame);
-		if (currGame->gameOver == 1) {
-			free(currGame);
-			input = 'z';
-		} else if (currGame->rounds > 9) {
-			printf("Its a tie!");
-			free(currGame);
-			input = 'z';
-		}
 	}
-	return input;
+	return currGame;
 }
 
 int main() {
@@ -119,11 +112,20 @@ int main() {
 			scanf("%c", &input);
 			if (input == 'c') { // chat
 				// chat(currGame->player); use this when you can use sockets
-				chat()
+				chat();
 			} else if (input == 'h') {
 				help();
 			} else if (input == 'n') {
-				input = iterateGame(currGame);
+				currGame = iterateGame(currGame);
+				if (currGame->gameOver == 1) {
+					printf("PLayer %s%c%s has won!\n", CYN, currGame->player, NORM);
+					free(currGame);
+					input = 'z';
+				} else if (currGame->rounds > 9) {
+					printf("Its a tie!");
+					free(currGame);
+					input = 'z';
+		}
 			} else if (input == 'p') {
 				printBoard(currGame);
 			}
