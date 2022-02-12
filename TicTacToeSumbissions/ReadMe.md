@@ -1,3 +1,5 @@
+#submissions are found at /CSclass/
+
 GROUP 4: Henry Lembo, Anthony Lucchese, Prisco Pocius
 ReadMe.md
 This simple read me file tells the reader how to compile and run our game, as well as some noted.
